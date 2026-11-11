@@ -1,0 +1,40 @@
+- Core Services:
+    - AdGuard Home:
+        icon: adguard-home.png
+        href: "http://raspberrypi.local:3000"
+        description: "Network-wide DNS & Ad Blocking"
+        server: my-docker
+        container: homelab_adguard
+
+    - Caddy Proxy:
+        icon: caddy.png
+        href: "http://raspberrypi.local"
+        description: "Edge Reverse Proxy & HTTPS"
+        server: my-docker
+        container: homelab_caddy
+
+- Monitoring & Logs:
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: "http://raspberrypi.local:3001"
+        description: "Service Status & Uptime Alerts"
+        server: my-docker
+        container: homelab_uptime
+
+    - Dozzle:
+        icon: dozzle.png
+        href: "http://raspberrypi.local:8080"
+        description: "Live Real-Time Container Logs"
+        server: my-docker
+        container: homelab_dozzle
+
+- Connected Devices:
+    - Kindle Weather Display:
+        icon: kindle.png
+        href: "https://nikhil-kindle-weather.web.app"
+        description: "E-Ink Weather & Clock Kiosk"
+
+    - Car Thing DeskThing:
+        icon: spotify.png
+        href: "http://localhost:8080"
+        description: "800x480 Media & Macro Controller"

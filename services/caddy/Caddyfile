@@ -1,0 +1,22 @@
+# Global settings
+{
+    admin off
+    auto_https off
+}
+
+# ---------------------------------------------------------
+# Default Port 80 Entrypoint (Homepage & Subdomains)
+# ---------------------------------------------------------
+:80 {
+    # Homelab Landing Dashboard
+    reverse_proxy homepage:3000
+}
+
+# Dashboard Subdomain / Port mapping
+:8080 {
+    reverse_proxy dozzle:8080
+}
+
+:3001 {
+    reverse_proxy uptime-kuma:3001
+}

@@ -1,0 +1,84 @@
+services:
+  # ---------------------------------------------------------
+  # 1. Reverse Proxy & Automated HTTPS (Caddy)
+  # ---------------------------------------------------------
+  caddy:
+    image: caddy:2-alpine
+    container_name: homelab_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - homelab_net
+
+  # ---------------------------------------------------------
+  # 2. Network-Wide DNS & Ad-Blocking (AdGuard Home)
+  # ---------------------------------------------------------
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: homelab_adguard
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "3000:3000/tcp" # Initial setup portal
+    volumes:
+      - adguard_work:/opt/adguardhome/work
+      - adguard_conf:/opt/adguardhome/conf
+    networks:
+      - homelab_net
+
+  # ---------------------------------------------------------
+  # 3. Homelab Landing Dashboard (Homepage)
+  # ---------------------------------------------------------
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homelab_homepage
+    restart: unless-stopped
+    volumes:
+      - ./homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - homelab_net
+
+  # ---------------------------------------------------------
+  # 4. Service Monitoring & Alerts (Uptime Kuma)
+  # ---------------------------------------------------------
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: homelab_uptime
+    restart: unless-stopped
+    volumes:
+      - uptime_kuma_data:/app/data
+    networks:
+      - homelab_net
+
+  # ---------------------------------------------------------
+  # 5. Real-Time Docker Container Logs (Dozzle)
+  # ---------------------------------------------------------
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: homelab_dozzle
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - homelab_net
+
+networks:
+  homelab_net:
+    name: homelab_net
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
+  adguard_work:
+  adguard_conf:
+  uptime_kuma_data:

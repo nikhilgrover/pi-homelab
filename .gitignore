@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+.env
+services/**/data/
+services/**/work/
+services/**/conf/
