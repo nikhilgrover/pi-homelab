@@ -41,6 +41,8 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homelab_homepage
     restart: unless-stopped
+    environment:
+      - HOMEPAGE_ALLOWED_HOSTS=raspberrypi.local,raspberrypi.local:80,raspberrypi.local:3000,192.168.68.60,192.168.68.60:80,localhost,127.0.0.1
     volumes:
       - ./homepage/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
